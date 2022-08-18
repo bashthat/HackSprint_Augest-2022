@@ -1,7 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 """
 creating the snake game
 """
+
 import pygame
 import sys
 import random
@@ -29,7 +32,6 @@ class Snake:
             body_copy.insert(0, body_copy[0] + self.direction)
             self.body = body_copy
             self.new_length = False
-
         else:
 
             body_copy = self.body[:-1]
@@ -40,28 +42,29 @@ class Snake:
         self.new_block = True
 
 
-class FRUIT():
+class FRUIT:
 
     def __init__(self):
         self.random_fruit()
 
     def spawn_fruit(self):
-        fruit_obj = pygame.Rect(
-            int(self.pos.x * cell_size, self.pos.y * cell_size, cell_size, cell_size))
+        fruit_obj = pygame.Rect(int(self.pos.x * cell_size, self.pos.y
+                                * cell_size, cell_size, cell_size))
         pygame.draw.rect(screen, (255, 116, 155), fruit_obj)
-
-    def move_snake(self):
-        body_moves = self.body[:-1]
-        body_moves.insert(0, self.body[0] + self.direction)
-        self.body = body_moves[:]
 
     def random_fruit(self):
         self.x = random.randint(0, cell_num - 1)
         self.y = random.randint(0, cell_num - 1)
         self.position = Vector2(self.x, self.y)
 
+    
+    def move_snake(self):
+        body_moves = self.body[:-1]
+        body_moves.insert(0, self.body[0] + self.direction)
+        self.body = body_moves[:]
 
 class Game:
+
     def __init__(self):
         self.snake = Snake()
         self.fruit = FRUIT()
@@ -77,19 +80,20 @@ class Game:
     def handle_events(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.random_fruit()
-            self.snake.body.append(self.snake.body[-1] + self.snake.direction)
-            print("Yum!")
+            self.snake.body.append(self.snake.body[-1]
+                                   + self.snake.direction)
+            print("fruit!")
 
 
 pygame.init()
 cell_size = 40
 cell_num = 20
-screen = pygame.display.set_mode((cell_num * cell_size, cell_num * cell_size))
+screen = pygame.display.set_mode((cell_num * cell_size, cell_num
+                                 * cell_size))
 clock = pygame.time.Clock()
 
 fruit = FRUIT()
 snake = Snake()
-
 
 UPDATE_SCREEN = pygame.USEREVENT
 pygame.time.set_timer(UPDATE_SCREEN, 150)
@@ -118,7 +122,3 @@ while True:
     Game.draw()
     pygame.display.update()
     clock.tick(60)
-
-if __name__ == '__main__':
-    game = Game()
-    game.run()
